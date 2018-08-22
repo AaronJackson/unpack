@@ -1,6 +1,6 @@
 local ffi = require("ffi")
 
-local wrapper = ffi.load('unpack')
+local wrapper = ffi.load('unpack/libunpack.so')
 
 ffi.cdef[[
 void unpack(char *packed, char *unpacked, int sz);
@@ -8,16 +8,12 @@ void unpack(char *packed, char *unpacked, int sz);
 
 local unpack = {}
 
-function unpack.unpack(packed, len)
-   local unpacked = torch.ByteTensor(packed:size()[1]*8)
+function unpack.unpack(packed, unpacked, len)
    wrapper.unpack(torch.data(packed), torch.data(unpacked), len)
-
-   return unpacked
 end
 
-function unpack.unpackFile(filepath, len)
+function unpack.unpackFile(filepath, unpacked, len)
    local packed = torch.ByteTensor(len)
-   local unpacked = torch.ByteTensor(len*8)
 
    fid = torch.DiskFile(filepath, 'r')
    fid:binary()
@@ -26,7 +22,6 @@ function unpack.unpackFile(filepath, len)
 
    wrapper.unpack(torch.data(packed), torch.data(unpacked), len);
 
-   return unpacked
 end
 
 return unpack

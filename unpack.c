@@ -1,9 +1,8 @@
 #include <stdio.h>
 
-void unpack(char *packed, char *unpacked, int w, int h, int z) {
+void unpack(char *packed, char *unpacked, int sz) {
 
   register int i, o;
-  int sz = w * h * z / 8;
 
   for (i=0; i < sz; ++i) {
     o = i*8;
