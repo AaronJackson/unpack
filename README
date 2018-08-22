@@ -1,0 +1,2 @@
+This is mostly here for self reference. I am using it to unpack raw
+logical arrays created by MATLAB's bwpack function.
